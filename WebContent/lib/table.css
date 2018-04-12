@@ -1,0 +1,233 @@
+@CHARSET "UTF-8";
+
+/* ========================================================================
+   Component: datatable.less
+ ========================================================================== */
+.dataTables_filter input {
+    margin-left: 10px;
+}
+.dataTables_length select {
+    margin-right: 10px;
+}
+table.dataTable tfoot > tr > th {
+    color: #a1a2a3;
+    background: #f1f2f3;
+}
+.dataTables_wrapper .row {
+    margin: 10px 0;
+}
+table.dataTable {
+    border-bottom: 1px solid #e4eaec !important;
+}
+table.dataTable thead th,
+table.dataTable thead td {
+    border-bottom: 1px solid #e4eaec !important;
+}
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper select {
+    box-shadow: none;
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #28292e;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #dde6e9;
+    border-radius: 4px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-image: none !important;
+    background-color: #edf1f2 !important;
+    border: 0 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #fff !important;
+}
+body .dataTable:before,
+body .dataTable:after {
+    content: " ";
+    display: table;
+}
+body .dataTable:after {
+    clear: both;
+}
+body .dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: #fff !important;
+    border: 1px solid #e4eaec !important;
+    margin-left: 0;
+    padding: 6px 16px;
+}
+body .dataTables_wrapper .dataTables_paginate .paginate_button.previous {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+body .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+body .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: #337ab7 !important;
+}
+body .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+body .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background-color: #337ab7 !important;
+    color: white !important;
+    border-color: #337ab7 !important;
+}
+body table.dataTable.row-border tbody th,
+body table.dataTable.row-border tbody td,
+body table.dataTable.display tbody th,
+body table.dataTable.display tbody td {
+    border-top-color: #eee;
+}
+body table.dataTable tbody tr:nth-child(odd),
+body table.dataTable.hover tbody tr:hover,
+body table.dataTable.display tbody tr:hover {
+    background-color: #fafbfc;
+}
+body table.dataTable thead th,
+body .dataTables_wrapper .dataTables_length,
+body .dataTables_wrapper .dataTables_filter,
+body .dataTables_wrapper .dataTables_info,
+body .dataTables_wrapper .dataTables_processing,
+body .dataTables_wrapper .dataTables_paginate {
+    color: #888;
+}
+/* ========================================================================
+   Component: table-extras.less
+ ========================================================================== */
+.table > thead > tr > th {
+    padding: 14px 8px;
+    color: #888;
+}
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+.table > tbody > tr > td > .media img {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto;
+}
+.table .checkbox {
+    margin: 0 auto;
+    width: 20px;
+}
+.table .progress {
+    margin-bottom: 0;
+}
+.table .radial-bar {
+    margin-bottom: 0;
+    margin: 0 auto;
+}
+.jqstooltip {
+    box-sizing: content-box;
+}
+#table-ext-1 th:nth-child(1) {
+    width: 3%;
+}
+#table-ext-1 th:nth-child(2) {
+    width: 5%;
+}
+#table-ext-1 th:nth-child(7) {
+    width: 5%;
+}
+#table-ext-1 th:nth-child(9) {
+    width: 5%;
+}
+#table-ext-2 th:nth-child(1) {
+    width: 5%;
+}
+#table-ext-2 th:nth-child(3) {
+    width: 10%;
+}
+/* ========================================================================
+   Component: table-ngtable.less
+ ========================================================================== */
+body .ng-table th.sortable.sort-desc,
+body .ng-table th.sortable.sort-asc {
+    background-color: #fff;
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+body .ng-table th.sortable div:after,
+body .ng-table th.sortable div:before {
+    border-color: #28292e transparent;
+}
+body .ng-table th.sortable div:before {
+    border-top-color: #28292e;
+}
+body .ng-table th.sortable.sort-desc div:after {
+    border-top-color: #28292e;
+}
+body [ng-table-pagination] {
+    padding: 15px 5px;
+}
+body [ng-table-pagination] .ng-table-pagination {
+    margin: 0;
+}
+body .ng-table .plus,
+body .ng-table .minus {
+    font-weight: bold;
+    padding-left: 18px;
+    position: relative;
+}
+body .ng-table .plus:before,
+body .ng-table .minus:before {
+    content: "";
+    border-width: 4px;
+    border-style: solid;
+    left: 8px;
+    top: 50%;
+    position: absolute;
+    margin-top: -2px;
+}
+body .ng-table .plus {
+    color: green;
+}
+body .ng-table .plus:before {
+    border-color: green;
+    border-top: none;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+body .ng-table .minus {
+    color: red;
+}
+body .ng-table .minus:before {
+    border-color: red;
+    border-bottom: none;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+body .ng-table-rowselected tr {
+    cursor: pointer;
+}
+body .ng-table-pager:before,
+body .ng-table-pager:after {
+    content: " ";
+    display: table;
+}
+body .ng-table-pager:after {
+    clear: both;
+}
+
+tbody td{
+	border-bottom: solid 1px #e1e1e1;
+   	padding: 18px 5px !important;
+   	text-align: center;
+   	font-size: 12px;
+   	border-right: dashed 1px #e1e1e1;
+   	border-left: dashed 1px #e1e1e1;
+   	color: #666;
+}
+tbody tr:nth-child(odd) td {
+	background: #fafafa;
+}
+thead tr th{
+	border: solid 1px #e1e1e1;
+   	padding: 10px 5px;
+   	text-align: center;
+   	font-size: 14px;
+   	color: #555;
+   	background: #fafafa;
+}

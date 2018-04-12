@@ -5,7 +5,7 @@
 	<constant name="struts.ui.theme" value="simple"/>
     <package name="default" extends="struts-default">
         <action name="stulogin" class="com.stu.action.LoginRegisterAction" method="login">
-            <result name="success">/student/enlist.jsp</result>
+            <result name="success">/student/editInfo.jsp</result>
             <result name="login">/student/login.jsp</result>
         </action>
     </package>
