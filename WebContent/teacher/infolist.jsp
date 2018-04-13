@@ -12,6 +12,7 @@
 	<script type="text/javascript" language="javascript" src="../lib/jquery-tab.js"></script>
 	<link rel="stylesheet" type="text/css" href="../lib/jquery.dataTables.min.css">
 	<script type="text/javascript" language="javascript" src="../lib/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../lib/table.css">
 	<%-- <sx:head/> --%>
 	<style type="text/css">
 		/* 标签页样式 */
@@ -102,6 +103,7 @@
 		.nav li {
 			display: inline-block;
 		}
+		
 		/* 页面样式 */
 		body{
 			font-size: 14px;
@@ -124,33 +126,77 @@
 			display: flex;
 			justify-content: center;
 		}
-		#content #infolistTab{
+		/* #content #infolistTab{
 			width: 80%;
+		} */
+		#content .tabheader{
+			display: flex;
+			justify-content: space-between;
+			margin: 20px 0;
+		}
+		#content .tabheader button{
+			color: #fff;
+			background-color: #399cde;
+			font-size: 14px;
+			font-weight: 400;
+			text-align: center;
+			padding: 1px 15px;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+		#content .tabheader button:hover{
+			background-color: #337ab7;
 		}
 	</style>
 </head>
 <body>
+	<s:bean name="db.StudentMsgDAO">
+		<s:set value="getAbsentStuFromPlace(#session.examLocationId)" var="absentStuList" />
+	</s:bean>
+	<s:bean name="db.StudentMsgDAO">
+		<s:set value="getCheatingStuFromPlace(#session.examLocationId)" var="cheatingStuList" />
+	</s:bean>
 	<s:include value="navbar.jsp"></s:include>
+	<%-- <s:debug/> --%>
 	<div id="content">
 		<div class="htmleaf-container">
 			<div class="container">
 				<div class="tab-group">
 					<section id="tab1" title="缺考名单">
-						<div>
+						<div class="tabheader">
 							<h4>缺考名单</h4>
-							<button type="button">导出</button>
+							<button type="button">导&nbsp;&nbsp;出</button>
 						</div>
-						<table id="absent" class="display" cellspacing="0" width="100%">
-								<tr>
-									<th>姓名</th>
-									<th>证件号码</th>
-									<th>座位号</th>
-									<th>手机号码</th>
-								</tr>
-						</table>
+						<div style="margin-bottom: 20px;">
+							<table id="absent" class="display" cellspacing="0" width="100%">
+									<thead>
+										<th>姓名</th>
+										<th>证件号码</th>
+										<th>座位号</th>
+										<th>手机号码</th>
+									<thead>
+									<tbody>
+	    								</tbody>
+							</table>
+						</div>
 					</section>
 					<section id="tab2" title="黑名单">
-						<h3>黑名单</h3>
+						<div class="tabheader">
+							<h4>黑名单</h4>
+							<button type="button">导&nbsp;&nbsp;出</button>
+						</div>
+						<div style="margin-bottom: 20px;">
+							<table id="cheating" class="display" cellspacing="0" width="100%">
+									<thead>
+										<th>姓名</th>
+										<th>证件号码</th>
+										<th>座位号</th>
+										<th>手机号码</th>
+									<thead>
+									<tbody>
+	    								</tbody>
+							</table>
+						</div>
 					</section>
 				</div>
 			</div>
@@ -158,9 +204,80 @@
 	</div>
 </body>
 <script type="text/javascript">
+	//获取表格中的数据
+	/* 缺席名单中的数据 */
+	var absentStuArray = new Array();
+	var index=0;
+	<s:iterator value="#absentStuList">
+		var absentStuInfo = new Array(4);
+		absentStuInfo[0] = "<s:property value='stuname'/>"
+		console.log(absentStuInfo[0]);
+		absentStuInfo[1] = <s:property value="cardid"/>
+		absentStuInfo[2] = <s:property value="examseatnumber"/>	
+		absentStuInfo[3] = <s:property value="phonenumber"/>
+		absentStuArray[index++] = absentStuInfo;
+	</s:iterator>
+	
+	/* 黑名单中的数据 */
+	var cheatingStuArray = new Array();
+	index=0;
+	<s:iterator value="#cheatingStuList">
+		var cheatingStuInfo = new Array(4);
+		absentStuInfo[0] = "<s:property value='stuname'/>"
+		console.log(absentStuInfo[0]);
+		absentStuInfo[1] = <s:property value="cardid"/>
+		absentStuInfo[2] = <s:property value="examseatnumber"/>	
+		absentStuInfo[3] = <s:property value="phonenumber"/>
+		absentStuArray[index++] = absentStuInfo;
+	</s:iterator>
+	
+	
 	$("document").ready(function(){
 		$(".menu a:eq(1)").css("color","red");
+		
+		/* 标签页构建 */
 		$('.tab-group').tabify();
+		
+		/*缺考名单表格设定*/
+		$("#absent").DataTable({
+			data: absentStuArray,
+			"oLanguage": { 
+				"sLengthMenu": "每页显示 _MENU_ 条记录", 
+				"sZeroRecords": "抱歉， 没有找到", 
+				"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据", 
+				"sInfoEmpty": "没有数据", 
+				"sInfoFiltered": "(从 _MAX_ 条数据中检索)", 
+				"sSearch": "搜索",
+				"oPaginate": { 
+					"sFirst": "首页", 
+					"sPrevious": "前一页", 
+					"sNext": "后一页", 
+					"sLast": "尾页" 
+				}, 
+			"sZeroRecords": "无同学缺考",
+			"bStateSave": true 
+			}
+		});
+		/*黑名单表格设定*/
+		$("#cheating").DataTable({
+			data: cheatingStuArray,
+			"oLanguage": { 
+				"sLengthMenu": "每页显示 _MENU_ 条记录", 
+				"sZeroRecords": "抱歉， 没有找到", 
+				"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据", 
+				"sInfoEmpty": "没有数据", 
+				"sInfoFiltered": "(从 _MAX_ 条数据中检索)", 
+				"sSearch": "搜索",
+				"oPaginate": { 
+					"sFirst": "首页", 
+					"sPrevious": "前一页", 
+					"sNext": "后一页", 
+					"sLast": "尾页" 
+				}, 
+			"sZeroRecords": "无同学作弊",
+			"bStateSave": true 
+			}
+		});
 	});
 </script>
 </html>

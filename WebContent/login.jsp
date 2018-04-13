@@ -90,7 +90,7 @@ body {
 	
 }
 #content form input[type="text"]:focus,
-#content form input[type="password"]:focus {
+#content form input[type="password"]:focus, #content form select:focus{
 	box-shadow: 0 0 2px #ed1c24 inset;
 	background-color: #fff;
 	border: 1px solid #ed1c24;
@@ -135,7 +135,7 @@ footer .copyright{
 #username{
     background:  url(http://cssdeck.com/uploads/media/items/8/8bcLQqF.png) no-repeat;
     position: absolute;
-    top: 30px;
+    top: 75px;
     left: 8px;
     width: 34px;
     height: 34px;
@@ -143,7 +143,7 @@ footer .copyright{
 #password{
     background:  url(http://cssdeck.com/uploads/media/items/8/8bcLQqF.png) no-repeat;
     position: absolute;
-    top: 90px;
+    top: 135px;
     left: 8px;
     width: 34px;
     height: 34px;
@@ -151,6 +151,25 @@ footer .copyright{
 .radio{
 	display: flex;
 	justify-content: space-around;
+}
+#content form #college{
+	width: calc(80% + 50px);
+	display: flex;
+	align-items: center;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	height: 30px;
+}
+#content form #college label{
+	width: 25%;
+	text-align: left;
+}
+#content form #college select{
+	width: 75%;
+	font-size: 14px;
+	padding: 20px;
+	height: 30px;
+	/* line-height: 16px; */
 }
 #username { background-position: 10px 10px !important }
 #password { background-position: 10px -53px !important }
@@ -161,12 +180,23 @@ footer .copyright{
 	<header>
 		<h2>考生身份验证系统</h2>
 	</header>
+	<s:bean name="db.CollegeMsgDAO">
+		<s:set value="getCollegeName()" var="collegeList" />
+	</s:bean>
 	<div class="main">
 		<section id="content">
-			<form action="stulogin.action" method="post">
+			<form action="teaAdminlogin.action" method="post">
 				<!-- <h1>登录页面</h1> -->
+				<div id="college">
+					<label for="collegeId">所在大学：</label>
+					<select name="collegeId">
+						<s:iterator value="#collegeList">
+							<option value="<s:property value='collegeid'/>"><s:property value="collegename"/></option>
+						</s:iterator>
+					</select>
+				</div>
 				<div>
-					<input type="text" placeholder="用户名" id="" name="name" />
+					<input type="text" placeholder="工号" id="" name="id" />
 					<div id ="username"></div>
 				</div>
 				<div>
@@ -177,11 +207,6 @@ footer .copyright{
 					<div><input type="radio" name="role" value="tea" checked="checked">&nbsp;教师</div>
 					<div><input type="radio" name="role" value="admin">&nbsp;管理员</div>
 				</div>
-<!-- 				<div class="radio">
-		        		<input type="radio" class="radio" name="role" value="student" checked> 学生
-		        		<input type="radio" class="radio" name="role" value="teacher"> 教师
-		        		<input type="radio" class="radio" name="role" value="manager"> 管理员
-		        	</div> -->
 				 <div>
 					<input type="submit" value="登录" />
 				</div> 
@@ -205,8 +230,10 @@ footer .copyright{
 		if(result != null){
 			if(result == 1)
 				alert("密码输入有误，请重新输入！");
+			else if(result == 0)
+				alert("所在学校或工号输入有误，请重新输入！");
 			else
-				alert("姓名或身份证号输入有误，请重新输入！");
+				alert("工号输入有误，请重新输入！");
 		}
 	});
 </script>

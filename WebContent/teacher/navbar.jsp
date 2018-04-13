@@ -78,10 +78,14 @@
 	    cursor: pointer;
 	}
 	#mention{
-		width: 80%;
 		margin-top: 50px;
-		}
+		width: 100%;
+	}
 	#mention>div{
+		width: 80%;
+		margin: 0 auto;
+	}
+	#mention>div>div{
 		display: flex;
 		justify-content: space-around;
 		color: red;
@@ -94,6 +98,12 @@
 </style>
 </head>
 <body>
+	<<%-- s:bean name="db.TeacherMsgDAO">
+		<s:set value="getTeaMsg(#session.teaId,#session.collegeId)" var="teaMsgList" scope="session"/>
+	</s:bean> --%>
+	<s:bean name="db.SubjectMsgDAO">
+		<s:set value="getSubjectName().get(0)" var="subjectList" />
+	</s:bean>
 	<nav>
 		<header>
 				<div class="logo">
@@ -112,9 +122,11 @@
 	</nav>
 	<div id="mention">
 		<div>
-			<p>考点：</p>
-			<p>考场：</p>
-			<p>考试科目：</p>
+			<div>
+				<p>考点：<s:property value="#session.testingPointName"/></p>
+				<p>考场：<s:property value="#session.building"/><s:property value="#session.classroom"/></p>
+				<p>考试科目：<s:property value="#subjectList.subjectname"/></p>
+			</div>
 		</div>
 	</div>
 </body>

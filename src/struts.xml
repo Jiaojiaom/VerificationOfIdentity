@@ -8,5 +8,10 @@
             <result name="success">/student/editInfo.jsp</result>
             <result name="login">/student/login.jsp</result>
         </action>
+        <action name="teaAdminlogin" class="com.action.TeaAdminLoginAction">
+            <result name="successtea" type="redirect">/teacher/authentication.jsp</result>
+            <result name="successadmin" type="redirect">/admin/infolist.jsp</result>
+            <result name="login">login.jsp</result>
+        </action>
     </package>
 </struts>

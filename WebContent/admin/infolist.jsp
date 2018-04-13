@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>信息列表页面</title>
 </head>
 <body>
-
+信息列表。。。
 </body>
 </html>

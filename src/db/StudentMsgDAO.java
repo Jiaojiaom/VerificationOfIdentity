@@ -45,4 +45,23 @@ public class StudentMsgDAO {
 		dbc.close();
 		return rs;
 	}
+	
+	public ArrayList<Map<String,String>> getAbsentStuFromPlace(String examLocationId){
+		String sql = "select cardId,stuname,examSeatNumber,phoneNumber from studentMsg where examLocationId = " + examLocationId + " and isCheating = 2;";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> getCheatingStuFromPlace(String examLocationId){
+		String sql = "select cardId,stuname,examSeatNumber,phoneNumber from studentMsg where examLocationId = " + examLocationId + " and isCheating = 1;";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);	
+		dbc.close();
+		return rs;
+	}
+	
 }
