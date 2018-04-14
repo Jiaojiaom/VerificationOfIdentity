@@ -37,7 +37,7 @@ public class StudentMsgDAO {
 	}
 	
 	public ArrayList<Map<String,String>> getStudentMsg(String cardId){
-		String sql = "select sex,cardType,birth,provinceId,collegeId,studyType,academyClass,email,phoneNumber,address from studentMsg where cardId = '" +cardId + "';";
+		String sql = "select sex,cardType,birth,provinceId,collegeId,studyType,academyClass,email,phoneNumber,address,face_token from studentMsg where cardId = '" +cardId + "';";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
@@ -62,6 +62,38 @@ public class StudentMsgDAO {
 		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);	
 		dbc.close();
 		return rs;
+	}
+	
+	public int updateFaceToken(String cardId,String filename) {
+		String sql = "update studentMsg set face_token = '" + filename + "' where cardId = '" + cardId + "';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	
+	public String queryFaceToken(String cardId) {
+		String sql = "select face_token from studentMsg where cardId = '" + cardId + "';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		String rs = dbc.queryForList(sql).get(0).get("face_token");
+		dbc.close();
+		return rs;
+	}
+	
+	public int checkIdentity(Map<String,String> stuMsg, String examLocationId) {
+		String sql = "select * from studentMsg where cardId = '" + stuMsg.get("cardId") + "' and stuname = '" + stuMsg.get("name") + "' and sex = '" + stuMsg.get("gender") + "' and birth = '" + stuMsg.get("birth") + "' and examLocationId = " + examLocationId + ";";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+		dbc.close();
+		if(rs == null) {
+			return 0; //信息不通过
+		}else {
+			return 1;
+		}
 	}
 	
 }

@@ -212,9 +212,9 @@
 		var absentStuInfo = new Array(4);
 		absentStuInfo[0] = "<s:property value='stuname'/>"
 		console.log(absentStuInfo[0]);
-		absentStuInfo[1] = <s:property value="cardid"/>
+		absentStuInfo[1] = "<s:property value='cardid'/>"
 		absentStuInfo[2] = <s:property value="examseatnumber"/>	
-		absentStuInfo[3] = <s:property value="phonenumber"/>
+		absentStuInfo[3] = "<s:property value='phonenumber'/>"
 		absentStuArray[index++] = absentStuInfo;
 	</s:iterator>
 	
@@ -225,9 +225,9 @@
 		var cheatingStuInfo = new Array(4);
 		absentStuInfo[0] = "<s:property value='stuname'/>"
 		console.log(absentStuInfo[0]);
-		absentStuInfo[1] = <s:property value="cardid"/>
+		absentStuInfo[1] = "<s:property value='cardid'/>"
 		absentStuInfo[2] = <s:property value="examseatnumber"/>	
-		absentStuInfo[3] = <s:property value="phonenumber"/>
+		absentStuInfo[3] = "<s:property value='phonenumber'/>"
 		absentStuArray[index++] = absentStuInfo;
 	</s:iterator>
 	

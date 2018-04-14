@@ -225,7 +225,7 @@ footer .copyright{
 </footer> -->
 </body>
 <script type="text/javascript">
-	$(document).ready(function(){ 
+	$(document).ready(function(){
 		var result = <s:property value="tip"/>;
 		if(result != null){
 			if(result == 1)

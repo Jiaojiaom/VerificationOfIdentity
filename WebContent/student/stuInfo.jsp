@@ -147,7 +147,9 @@
 					</div>
 				</div>
 				<div id="infoImg">
-					<div><img src="../images/idphoto.jpg" alt="照片未显示" width="100%" height="100%"/></div>
+					<div>
+						<img src="../stuImg/<s:property value='#stuMsgList.face_token'/>" width="100%" height="100%"></img>
+					</div>
 					<%-- <p>照片状态：<span style="color:red">未审核</span></p> --%>
 				</div>
 			</div>

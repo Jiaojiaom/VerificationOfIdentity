@@ -3,6 +3,8 @@
 "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<constant name="struts.ui.theme" value="simple"/>
+	<!-- 防止出现文件上传拦截器拦截成功后无法返回页面到浏览器 -->
+	<constant name="struts.multipart.maxSize" value="-1"/>
     <package name="default" extends="struts-default">
         <action name="stulogin" class="com.stu.action.LoginRegisterAction" method="login">
             <result name="success">/student/editInfo.jsp</result>
@@ -11,7 +13,52 @@
         <action name="teaAdminlogin" class="com.action.TeaAdminLoginAction">
             <result name="successtea" type="redirect">/teacher/authentication.jsp</result>
             <result name="successadmin" type="redirect">/admin/infolist.jsp</result>
-            <result name="login">login.jsp</result>
+            <result name="login">login.jsp</result> 
+        </action>
+        <action name="uploadImg" class="com.stu.action.UploadImgAction">
+        		<!-- 配置fileUplaod拦截器 -->
+        		<interceptor-ref name="fileUpload">
+        			<!-- 配置允许上传的文件类型 -->
+        			<param name="allowedTypes">image/png,image/jpeg,image/jpg</param>
+        			<param name="maximumSize">2*1024*1024</param>
+        		</interceptor-ref>
+        		<!--配置系统拦截器 -->
+        		<interceptor-ref name="defaultStack" />
+        		<!-- 动态设置action的属性值 -->
+        		<param name="savePath">/stuImg</param>
+        		<!-- 返回结果 -->
+        		<result name="success">/student/uploadImg.jsp</result>
+        		<result name="input">/student/uploadImg.jsp</result>
+        </action>
+        <action name="cardRecognition" class="com.tea.action.orcIDcardAction">
+        		<!-- 配置fileUplaod拦截器 -->
+        		<interceptor-ref name="fileUpload">
+        			<!-- 配置允许上传的文件类型 -->
+        			<param name="allowedTypes">image/png,image/jpeg,image/jpg</param>
+        			<param name="maximumSize">2*1024*1024</param>
+        		</interceptor-ref>
+        		<!--配置系统拦截器 -->
+        		<interceptor-ref name="defaultStack" />
+        		<!-- 返回结果 -->
+        		<result name="success">/teacher/authentication.jsp</result>
+        		<result name="input">/teacher/authentication.jsp</result>
+        		<result name="login">/teacher/authentication.jsp</result>
+        </action>
+        <action name="faceRecognition" class="com.tea.action.FaceCompareAction">
+        		<!-- 配置fileUplaod拦截器 -->
+        		<interceptor-ref name="fileUpload">
+        			<!-- 配置允许上传的文件类型 -->
+        			<param name="allowedTypes">image/png,image/jpeg,image/jpg</param>
+        			<param name="maximumSize">2*1024*1024</param>
+        		</interceptor-ref>
+        		<!--配置系统拦截器 -->
+        		<interceptor-ref name="defaultStack" />
+        		<!-- 动态设置action的属性值 -->
+        		<param name="savePath">/stuImg</param>
+        		<!-- 返回结果 -->
+        		<result name="success">/teacher/authentication.jsp</result>
+        		<result name="input">/teacher/authentication.jsp</result>
+        		<result name="login">/teacher/authentication.jsp</result>
         </action>
     </package>
 </struts>

@@ -171,15 +171,15 @@ footer .copyright{
 			<form action="stulogin.action" method="post">
 				<!-- <h1>登录页面</h1> -->
 				<div>
-					<input type="text" placeholder="姓名" id="" name="stuName" />
+					<input type="text" placeholder="姓名" name="stuName" />
 					<div id ="username"></div>
 				</div>
 				<div>
-					<input type="text" placeholder="身份证号" id="" name="cardId" />
+					<input type="text" placeholder="身份证号" name="cardId" />
 					<div id ="cardId"></div>
 				</div>
 				<div>
-					<input type="password" placeholder="密码" id="" name="password" />
+					<input type="password" placeholder="密码" name="password" />
 					<div id ="password"></div>
 				</div>
 <!-- 				<div class="radio">
@@ -207,9 +207,9 @@ footer .copyright{
 </body>
 <script type="text/javascript">
 	$(document).ready(function(){ 
-		var result = <s:property value="tip"/>;
-		if(result != null){
-			if(result == 1)
+		var result = ""+ "<s:property value='tip'/>";
+		if(!result==""){
+			if(result=="1")
 				alert("密码输入有误，请重新输入！");
 			else
 				alert("姓名或身份证号输入有误，请重新输入！");

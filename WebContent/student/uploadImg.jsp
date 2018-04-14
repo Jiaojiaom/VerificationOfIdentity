@@ -119,6 +119,7 @@
 				<div>
 					<label>上传照片：</label>
 					<input type="file" name="img" class="file-loading"/>
+					<input type="hidden" name="cardId" value="<s:property value='#session.cardId'/>" />
 				</div>
 				<s:submit name="upload" value="确定上传"/>
 			</s:form>
@@ -141,10 +142,19 @@
 	</div>
 </body>
 <script type="text/javascript">
+	
 	$("document").ready(function(){
-		$(".tab:eq(1) hr").css("border-top","10px solid #399cde");
+		$(".tab:eq(1) hr").css("border-top","10px solid #399cde"); 
 		$(".tab:eq(1) div").css({"background-color": "#399cde","color": "#fff"});
 		$(".tab:eq(1) a").css("color","#399cde");
+		var result = "" + "<s:property value='tip'/>";
+		if(!result ==""){
+			if(result == "1"){
+				alert("上传成功！");
+			}
+			else
+				alert("照片格式或大小有误，请重新上传！");
+		}
 	});
 </script>
 </html>

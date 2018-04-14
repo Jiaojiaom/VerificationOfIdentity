@@ -56,6 +56,7 @@
 					<div>
 						<label>上传考生证件照片:</label>
 						<input type="file" name="cardImg" class="file"  data-show-preview="false"/>
+						<input type="hidden" name="examLocationId" value="<s:property value='#session.examLocationId'/>" />
 					</div>
 					<s:submit name="upload" value="比对"/>
 			</s:form>
@@ -63,6 +64,9 @@
 					<div>
 						<label>上传考生脸部照片：</label>
 						<input type="file" name="faceImg" class="file" data-show-preview="false"/>
+						<s:if test="stuId != null">
+							<input type="hidden" name="stuId" value="<s:property value='stuId'/>" />
+						</s:if>
 					</div>
 					<s:submit name="upload" value="比对"/>
 			</s:form>
@@ -72,6 +76,23 @@
 <script type="text/javascript">
 	$("document").ready(function(){
 		$(".menu a:eq(0)").css("color","red");
+		var result = ""+ "<s:property value='tip'/>";
+		if(!result==""){
+			console.log(result);
+			if(result=="0"){
+				alert("信息不相符，比对不通过");
+			}
+			if(result=="1")
+				alert("信息相符，比对通过");
+			else if(result=="2")
+				alert("比对失败，请重试");
+			else if(result=="3")
+				alert("照片格式或大小有误，请重新上传！");
+			else if(result=="4")
+				alert("是同一个人，比对通过");
+			else alert("不是同一个人，比对不通过");
+				
+		}
 	});
 </script>
 </html>
