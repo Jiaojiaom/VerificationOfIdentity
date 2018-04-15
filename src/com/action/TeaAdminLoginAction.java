@@ -70,8 +70,10 @@ public class TeaAdminLoginAction extends ActionSupport{
 			AdminMsgDAO admindao = new AdminMsgDAO();
 			tip = admindao.checkLog(id, password);
 			if(tip == 2) {
+				String adminName = admindao.getAdminName(id);
 				HttpSession session = ServletActionContext.getRequest().getSession();
 				session.setAttribute("adminId", id);
+				session.setAttribute("adminName", adminName);
 				return SUCCESS + role;
 			}
 			return LOGIN;

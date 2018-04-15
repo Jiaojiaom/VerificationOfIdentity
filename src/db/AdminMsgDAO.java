@@ -32,4 +32,13 @@ public class AdminMsgDAO {
 		}
 		return 3;
 	}
+	
+	public String getAdminName(String adminId) {
+		String sql = "select adminName from adminMsg where adminId = '" + adminId + "';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		String adminName = dbc.queryForList(sql).get(0).get("adminname");
+		dbc.close();
+		return adminName;
+	}
 }

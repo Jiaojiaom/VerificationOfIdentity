@@ -3,9 +3,12 @@
 "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<constant name="struts.ui.theme" value="simple"/>
+	 <!--解决乱码    -->
+    <!-- <constant name="struts.i18n.encoding" value="UTF-8"></constant> -->
 	<!-- 防止出现文件上传拦截器拦截成功后无法返回页面到浏览器 -->
 	<constant name="struts.multipart.maxSize" value="-1"/>
-    <package name="default" extends="struts-default">
+	
+    <package name="default" extends="json-default">
         <action name="stulogin" class="com.stu.action.LoginRegisterAction" method="login">
             <result name="success">/student/editInfo.jsp</result>
             <result name="login">/student/login.jsp</result>
@@ -60,5 +63,12 @@
         		<result name="input">/teacher/authentication.jsp</result>
         		<result name="login">/teacher/authentication.jsp</result>
         </action>
+         <action name="teaMsgImport" class="com.admin.action.TeaMsgImportAction">
+       		<!-- 动态设置action的属性值 -->
+        		<param name="savePath">/exceldata</param>
+            <result type="json">
+				<param name="root">result</param>            		
+            </result>
+         </action>
     </package>
 </struts>

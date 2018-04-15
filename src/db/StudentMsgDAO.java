@@ -96,4 +96,30 @@ public class StudentMsgDAO {
 		}
 	}
 	
+	public ArrayList<Map<String,String>> getStuMsgForAdmin(){
+		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId)";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> getAbStuMsgForAdmin(){
+		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where isCheating = 2";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> getCheatingStuMsgForAdmin(){
+		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where isCheating = 1";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
 }

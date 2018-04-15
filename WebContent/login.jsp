@@ -226,11 +226,11 @@ footer .copyright{
 </body>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var result = <s:property value="tip"/>;
-		if(result != null){
-			if(result == 1)
+		var result = ""+ "<s:property value='tip'/>";
+		if(result != ""){
+			if(result == "1")
 				alert("密码输入有误，请重新输入！");
-			else if(result == 0)
+			else if(result == "0")
 				alert("所在学校或工号输入有误，请重新输入！");
 			else
 				alert("工号输入有误，请重新输入！");

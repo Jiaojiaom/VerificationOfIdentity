@@ -223,12 +223,12 @@
 	index=0;
 	<s:iterator value="#cheatingStuList">
 		var cheatingStuInfo = new Array(4);
-		absentStuInfo[0] = "<s:property value='stuname'/>"
+		cheatingStuInfo[0] = "<s:property value='stuname'/>"
 		console.log(absentStuInfo[0]);
-		absentStuInfo[1] = "<s:property value='cardid'/>"
-		absentStuInfo[2] = <s:property value="examseatnumber"/>	
-		absentStuInfo[3] = "<s:property value='phonenumber'/>"
-		absentStuArray[index++] = absentStuInfo;
+		cheatingStuInfo[1] = "<s:property value='cardid'/>"
+		cheatingStuInfo[2] = <s:property value="examseatnumber"/>	
+		cheatingStuInfo[3] = "<s:property value='phonenumber'/>"
+		cheatingStuArray[index++] = cheatingStuInfo;
 	</s:iterator>
 	
 	
@@ -254,7 +254,7 @@
 					"sNext": "后一页", 
 					"sLast": "尾页" 
 				}, 
-			"sZeroRecords": "无同学缺考",
+			"sZeroRecords": "暂无同学缺考",
 			"bStateSave": true 
 			}
 		});
@@ -274,7 +274,7 @@
 					"sNext": "后一页", 
 					"sLast": "尾页" 
 				}, 
-			"sZeroRecords": "无同学作弊",
+			"sZeroRecords": "暂无同学作弊",
 			"bStateSave": true 
 			}
 		});

@@ -12,4 +12,13 @@ public class TestingPointMsgDAO {
 		dbc.close();
 		return rs;
 	}
+	
+	public ArrayList<Map<String,String>> getTPMsg(){
+		String sql = "select testingPointId,testingPointName,collegeName,testingPointAddress from testingPointMsg join collegeMsg using(collegeId)";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
 }
