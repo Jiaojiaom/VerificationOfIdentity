@@ -142,19 +142,19 @@
 	</div>
 </body>
 <script type="text/javascript">
-	
+	<s:property value="rs"/>
 	$("document").ready(function(){
 		$(".tab:eq(1) hr").css("border-top","10px solid #399cde"); 
 		$(".tab:eq(1) div").css({"background-color": "#399cde","color": "#fff"});
 		$(".tab:eq(1) a").css("color","#399cde");
-		var result = "" + "<s:property value='tip'/>";
+		/* var result = "" + "<s:property value='tip'/>";
 		if(!result ==""){
 			if(result == "1"){
 				alert("上传成功！");
 			}
 			else
 				alert("照片格式或大小有误，请重新上传！");
-		}
+		} */
 	});
 </script>
 </html>

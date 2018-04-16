@@ -235,7 +235,10 @@
 					<section id="tab1" title="考生名单">
 						<div class="tabheader">
 							<h4>考生名单</h4>
-							<button type="button">导&nbsp;&nbsp;出</button>
+							<form name="exportStu" id="exportStu" method="post" action="exportExcel.action">
+								<input type="hidden" name="exportType" value="candidate"/>
+								<button type="submit" id="exportStu">导&nbsp;&nbsp;出</button>
+							</form>
 						</div>
 						<div style="margin-bottom: 20px;">
 							<table id="stuMsg" class="display" cellspacing="0" width="100%">
@@ -271,6 +274,7 @@
 									    <input type="file" name="excel" id="importFile" onchange="loadFile(this.files[0])"/>
 									</a>
 									<span id="filename" style="vertical-align: middle">未选择文件</span>
+									<input type="hidden" name="importType" value="tea"/>
 									<!-- <input type="submit" name="Submit" value="确定" class="btn btn-primary importFileBtn"/>  -->
 									<!-- <button id="filebtn" type="button">导&nbsp;入</button> -->
 									<button id="filebtn" type="submit">导&nbsp;入</button>
@@ -295,7 +299,10 @@
 					<section id="tab3" title="缺考名单">
 						<div class="tabheader">
 							<h4>缺考名单</h4>
-							<button type="button">导&nbsp;&nbsp;出</button>
+							<form name="exportAbStu" id="exportAbStu" method="post" action="exportExcel.action">
+								<input type="hidden" name="exportType" value="absentStu"/>
+								<button type="submit">导&nbsp;&nbsp;出</button>
+							</form>
 						</div>
 						<div style="margin-bottom: 20px;">
 							<table id="absent" class="display" cellspacing="0" width="100%">
@@ -314,7 +321,10 @@
 					<section id="tab4" title="黑名单">
 						<div class="tabheader">
 							<h4>黑名单</h4>
-							<button type="button">导&nbsp;&nbsp;出</button>
+							<form name="exportCheatStu" id="exportCheatStu" method="post" action="exportExcel.action">
+								<input type="hidden" name="exportType" value="cheatingStu"/>
+								<button type="submit">导&nbsp;&nbsp;出</button>
+							</form>
 						</div>
 						<div style="margin-bottom: 20px;">
 							<table id="cheating" class="display" cellspacing="0" width="100%">
@@ -485,27 +495,44 @@
 		
 		$("#filebtn").click(function(){
 			$("#formTea").ajaxForm({
-				url :"teaMsgImport.action",
+				url :"msgImport.action",
 				dataType : "json",
 				type : "post",
 				resetForm : true,
 				beforeSubmit : function(){
 					var fileName= $("#importFile").val();
-		            var suffix=(fileName.substr(fileName.lastIndexOf(".")+1)).toUpperCase();
-		            if(!(suffix=='XLS'||suffix=='XLSX')){
-		                alert("只能上传xls或者xlxs类型的文件！");
-		                return false;
-		            }
+					if(fileName==undefined || fileName==""){
+						alert("请选择文件！");
+					}else{
+			            var suffix=(fileName.substr(fileName.lastIndexOf(".")+1)).toUpperCase();
+			            if(!(suffix=='XLS'||suffix=='XLSX')){
+			                alert("只能上传xls或者xlxs类型的文件！");
+			                return false;
+			            }
+					}
 				},
 				success : function(data){
 					alert(data);
+					window.location.reload();
 					
 				},
-				error : function(){
-					alert("失败");
+				error : function(data){
+					alert(data);
 				}
 			});
 		});
+		
+		//考生名单导出
+		/* $("#exportStu").click(function(){
+			$.ajax({
+				type: "POST",
+				url: "exportExcel.action",
+				data: {exportType: "candidate"},
+				complete: function(){
+					alert("complete");
+				}
+			});
+		}); */
 	});
 </script>
 </html>

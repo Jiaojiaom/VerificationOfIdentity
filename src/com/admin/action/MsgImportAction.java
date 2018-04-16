@@ -14,19 +14,34 @@ import org.json.JSONObject;
 import com.bean.ReadExcel;
 import com.opensymphony.xwork2.ActionSupport;
 
+import db.ExamDisMsgDAO;
 import db.StudentMsgDAO;
 import db.TeacherMsgDAO;
+import db.TestingPointMsgDAO;
 
-public class TeaMsgImportAction extends ActionSupport{
+public class MsgImportAction extends ActionSupport{
 	private File excel; //上传的文件
     private String excelFileName; //上传文件的名称 固定写法：上传的文件+FileName
     private String excelContentType;
     private String result;
     //文件保存路径
   	private String savePath;
+  	private String importType;
+  	private String tpId;
   	
-  	
-  	public String getResult() {
+  	public String getTpId() {
+		return tpId;
+	}
+	public void setTpId(String tpId) {
+		this.tpId = tpId;
+	}
+	public String getImportType() {
+		return importType;
+	}
+	public void setImportType(String importType) {
+		this.importType = importType;
+	}
+	public String getResult() {
 		return result;
 	}
 	public void setResult(String result) {
@@ -84,17 +99,28 @@ public class TeaMsgImportAction extends ActionSupport{
 		
 		//解析文件，得到文件中的内容
 		ReadExcel xlsMain = new ReadExcel();
-		ArrayList<Map<String,String>> data = xlsMain.readXls(path);
+		ArrayList<Map<String,String>> data = xlsMain.readXls(path,importType);
 		System.out.println("uplaod success");
-		 
+		
 		//数据传入数据库
-		TeacherMsgDAO tdao = new TeacherMsgDAO();
-		int i = tdao.importTable(data);
+		int i = 0;
+		if(importType.equals("tea")) {
+			TeacherMsgDAO tdao = new TeacherMsgDAO();
+			i = tdao.importTable(data);
+		}else if(importType.equals("testingPoint")) {
+			TestingPointMsgDAO tpdao = new TestingPointMsgDAO();
+			i = tpdao.importTable(data);
+		}else {
+			ExamDisMsgDAO eldao = new ExamDisMsgDAO();
+			i = eldao.importTable(data,tpId);
+		}
 		if(i>0) {
 			result = "导入成功！";
+			return SUCCESS;
 			
 		}else {
 			result = "导入失败，请检查文件！";
+			return LOGIN;
 		}
 //		Map json = new JSONObject(message);
 //		Map<String,String> 
@@ -103,7 +129,7 @@ public class TeaMsgImportAction extends ActionSupport{
 //		result = new HashMap<String,String>();
 //		result.put("message", message);
 		
-		return SUCCESS;
+		
 	}
 
 }

@@ -64,7 +64,7 @@
 			width: 60%;
 		}
 		#infoImg div{
-			width: 100px;
+			width: 150px;
 			border: 1px solid #000;
 		}
 		#infoTab button{
@@ -148,12 +148,17 @@
 				</div>
 				<div id="infoImg">
 					<div>
-						<img src="../stuImg/<s:property value='#stuMsgList.face_token'/>" width="100%" height="100%"></img>
+						<s:if test="#stuMsgList.face_token == null || #stuMsgList.face_token.length()==0">
+							<img src="../stuImg/default.jpg" width="100%" height="100%"></img>
+						</s:if>
+						<s:else>
+							<img src="../stuImg/<s:property value='#stuMsgList.face_token'/>" width="100%" height="100%"></img>
+						</s:else>
 					</div>
 					<%-- <p>照片状态：<span style="color:red">未审核</span></p> --%>
 				</div>
 			</div>
-			<button type="button">修改信息</button>
+			<button type="button" id="editBtn">修改信息</button>
 		</div>
 	</div>
 </body>
@@ -162,6 +167,10 @@
 		$(".tab:eq(2) hr").css("border-top","10px solid #399cde");
 		$(".tab:eq(2) div").css({"background-color": "#399cde","color": "#fff"});
 		$(".tab:eq(2) a").css("color","#399cde");
+		
+		$("#editBtn").click(function(){
+			window.location.href = "editInfo.jsp";
+		});
 	});
 </script>
 </html>

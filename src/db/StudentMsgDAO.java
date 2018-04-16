@@ -77,9 +77,13 @@ public class StudentMsgDAO {
 		String sql = "select face_token from studentMsg where cardId = '" + cardId + "';";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
-		String rs = dbc.queryForList(sql).get(0).get("face_token");
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+		String face = null;
+		if(rs!=null && rs.size()>0) {
+			face = dbc.queryForList(sql).get(0).get("face_token");
+		}
 		dbc.close();
-		return rs;
+		return face;
 	}
 	
 	public int checkIdentity(Map<String,String> stuMsg, String examLocationId) {
@@ -97,7 +101,7 @@ public class StudentMsgDAO {
 	}
 	
 	public ArrayList<Map<String,String>> getStuMsgForAdmin(){
-		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId)";
+		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where testingPointId !='';";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
@@ -106,7 +110,7 @@ public class StudentMsgDAO {
 	}
 	
 	public ArrayList<Map<String,String>> getAbStuMsgForAdmin(){
-		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where isCheating = 2";
+		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where isCheating = 2 and testingPointId !=''";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
@@ -115,11 +119,122 @@ public class StudentMsgDAO {
 	}
 	
 	public ArrayList<Map<String,String>> getCheatingStuMsgForAdmin(){
-		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where isCheating = 1";
+		String sql = "select cardId,stuname,collegeName,email,phoneNumber from studentMsg join collegeMsg using(collegeId) where isCheating = 1 and testingPointId !=''";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
 		dbc.close();
 		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> exportStu(){
+		String sql = "select cardId,stuname,sex,cardType,birth,provinceName,collegeName,studyType,academyClass,email,phoneNumber,address,testingPointName,examLocationId,examSeatNumber,semblance from studentMsg join provinceMsg using(provinceId) join collegeMsg using(collegeId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId where studentMsg.testingPointId !='';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> exportAbsentStu(){
+		String sql = "select cardId,stuname,sex,cardType,birth,provinceName,collegeName,studyType,academyClass,email,phoneNumber,address,testingPointName,examLocationId,examSeatNumber,semblance from studentMsg join provinceMsg using(provinceId) join collegeMsg using(collegeId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId where isCheating = 2 and studentMsg.testingPointId !='';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> exportCheatingStu(){
+		String sql = "select cardId,stuname,sex,cardType,birth,provinceName,collegeName,studyType,academyClass,email,phoneNumber,address,testingPointName,examLocationId,examSeatNumber,semblance from studentMsg join provinceMsg using(provinceId) join collegeMsg using(collegeId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId where isCheating = 1 and studentMsg.testingPointId !='';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> exportAbsentStu(String examLocationId,String tpId){
+		String sql = "select cardId,stuname,sex,cardType,birth,provinceName,collegeName,studyType,academyClass,email,phoneNumber,address,testingPointName,examLocationId,examSeatNumber,semblance from studentMsg join provinceMsg using(provinceId) join collegeMsg using(collegeId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId where isCheating = 2 and studentMsg.testingPointId = " + tpId + " and examLocationId = "+ examLocationId + ";";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public ArrayList<Map<String,String>> exportCheatingStu(String examLocationId,String tpId){
+		String sql = "select cardId,stuname,sex,cardType,birth,provinceName,collegeName,studyType,academyClass,email,phoneNumber,address,testingPointName,examLocationId,examSeatNumber,semblance from studentMsg join provinceMsg using(provinceId) join collegeMsg using(collegeId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId where isCheating = 1 and studentMsg.testingPointId = " + tpId + " and examLocationId = "+ examLocationId + ";";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs =  dbc.queryForList(sql);
+		dbc.close();
+		return rs;
+	}
+	
+	public int insertStu(String stuname,String stuSex,String cardType,String cardId,String birth,String provinceId,String collegeId,String studyType,String academyClass,String email,String phoneNumber,String address) {
+		String sql = "insert into studentMsg(cardId,stuname,sex,cardType,birth,provinceId,collegeId,studyType,academyClass,email,phoneNumber,address) values('" + cardId + "','" + stuname + "','" + stuSex + "'," + cardType + ",'" + birth + "'," + provinceId + "," + collegeId + "," + studyType + ",'" + academyClass + "','" + email + "','" + phoneNumber + ",'" + address + "');";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	
+	public int updateStu(String cardId,String provinceId,String collegeId,String studyType,String academyClass,String email,String phoneNumber,String address) {
+		String sql = "update studentMsg set provinceId = " + provinceId + ", collegeId = " + collegeId + ", studyType = " + studyType+ ", academyClass = '" + academyClass + "', email = '" + email + "', phoneNumber = '" + phoneNumber + "', address = '" + address + "' where cardId = '" + cardId + "';";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	
+	public Map<String,String> getEnlistInfo(String cardId) {
+		String sql = "select testingPointName,subjectName,cityName from studentMsg join subjectMsg using(subjectId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId join cityMsg on testingPointMsg.cityId = cityMsg.cityId where cardId = '" + cardId + "';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+		Map<String,String> info = null;
+		if(rs!=null&&rs.size()>0) {
+			info = rs.get(0);
+		}
+		dbc.close();
+		
+		return info;
+	}
+	
+	public int updateEnlistInfo(String cardId,String testingPointId,String subjectId) {
+		String sql = "update StudentMsg set testingPointId = " + testingPointId + ", subjectId = " + subjectId + " where cardId = '" + cardId + "';";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	public int updateEnlistInfo(String cardId) {
+		String sql = "update StudentMsg set testingPointId = null, subjectId = null where cardId = '" + cardId + "';";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	
+	public Map<String,String> getExamInfo(String cardId) {
+		String sql = "select testingPointName,subjectName,subjectDate,subjectStartTime,subjectEndTime,building,classroom,examSeatNumber from studentMsg join subjectMsg using(subjectId) join testingPointMsg on studentMsg.testingPointId = testingPointMsg.testingPointId join examDistributionMsg on studentMsg.testingPointId = examDistributionMsg.testingPointId and studentMsg.examLocationId = examDistributionMsg.disId where cardId = '" + cardId + "';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+		Map<String,String> info = null;
+		if(rs!=null&&rs.size()>0) {
+			info = rs.get(0);
+		}
+		dbc.close();
+		return info;
 	}
 }

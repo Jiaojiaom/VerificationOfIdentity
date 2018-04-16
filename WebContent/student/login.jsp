@@ -175,7 +175,7 @@ footer .copyright{
 					<div id ="username"></div>
 				</div>
 				<div>
-					<input type="text" placeholder="身份证号" name="cardId" />
+					<input type="text" placeholder="证件号码" name="cardId" />
 					<div id ="cardId"></div>
 				</div>
 				<div>
@@ -188,7 +188,7 @@ footer .copyright{
 		        		<input type="radio" class="radio" name="role" value="manager"> 管理员
 		        	</div> -->
 		        	<div style="display: flex; justify-content: space-around">
-		        		<a href="stuRegister.action">点击注册</a>
+		        		<a href="regist.jsp">点击注册</a>
 		        		<a href="stuRegister.action">忘记密码</a>
 		        	</div>
 				 <div>
@@ -206,7 +206,7 @@ footer .copyright{
 </footer> -->
 </body>
 <script type="text/javascript">
-	$(document).ready(function(){ 
+	/* $(document).ready(function(){ 
 		var result = ""+ "<s:property value='tip'/>";
 		if(!result==""){
 			if(result=="1")
@@ -214,6 +214,7 @@ footer .copyright{
 			else
 				alert("姓名或身份证号输入有误，请重新输入！");
 		}
-	});
+	}); */
+	<s:property value="rs"/>
 </script>
 </html>

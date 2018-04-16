@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="../lib/jquery.dataTables.min.css">
 	<script type="text/javascript" language="javascript" src="../lib/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../lib/table.css">
+	<script type="text/javascript" language="javascript" src="../lib/jquery.form.js"></script>
 	<style type="text/css">
 		body{
 			font-size: 14px;
@@ -45,6 +46,43 @@
 			border-radius: 4px;
 			height: 35px;
 		}
+		#content #tpButtons button:hover{
+			 background: #337ab7;
+		}
+		input[type="file"] {
+			display: inline-block;
+			width: 134px;
+		}
+		.file {
+		    position: relative;
+		    display: inline-block;
+		    background: #fff;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    padding: 6px 12px;
+		    overflow: hidden;
+		    color: #333;
+		    text-decoration: none;
+		    text-indent: 0;
+		    line-height: 20px;
+		    margin-bottom: -13px;
+		    cursor: pointer;
+		}
+		.file input {
+		    position: absolute;
+		    right: 0;
+		    top: 0;
+		    opacity: 0;
+		}
+		.file:hover {
+		    background: #e6e6e6;
+		    border-color: #adadad;
+		    color: #333;
+		    text-decoration: none;
+		}
+		.filename{
+			width: 50px;
+		}
 	</style>
 </head>
 <body>
@@ -54,14 +92,26 @@
 	<s:include value="navbar.jsp"></s:include>
 	<div id="content">
 		<div id="tpButtons">
+			 <form method="post" name="formTp" id="formTp" enctype="multipart/form-data" >
+			     导入考点信息： 
+				<a href="javascript:;" class="file">选择文件
+				    <input type="file" name="excel" id="importFile" onchange="loadFile(this.files[0])"/>
+				</a>
+				<span id="filename" style="vertical-align: middle">未选择文件</span>
+				<input type="hidden" name="importType" value="testingPoint"/>
+				<!-- <input type="submit" name="Submit" value="确定" class="btn btn-primary importFileBtn"/>  -->
+				<!-- <button id="filebtn" type="button">导&nbsp;入</button> -->
+				<button id="filebtn" type="submit">导&nbsp;入</button>
+		    </form>
 			<div>
-				<button type="button" id="import">导入</button>
-				<button type="button">新增</button>
+				<!-- <button type="button" id="import">导入</button> -->
+				<button type="button">新增</button>&nbsp;&nbsp;
+				<button type="button">位置分配</button>
 			</div>
-			<button type="button">位置分配</button>
 		</div>
 		<table id="tpMsg" class="display" cellspacing="0" width="100%">
 			<thead>
+				<th>考点号</th>
 				<th>考点名称</th>
 				<th>考点地址</th>
 				<th>所在学校</th>
@@ -78,13 +128,19 @@
 	var tpArray = new Array();
 	var index=0;
 	<s:iterator value="#tpList">
-		var tpInfo = new Array(4);
-		tpInfo[0] = "<a href='examLocation.jsp?tpid=<s:property value='testingpointid'/>&tpname=<s:property value='testingpointname'/>'><s:property value='testingpointname'/></a>";
-		tpInfo[1] = "<s:property value='testingpointaddress'/>";
-		tpInfo[2] = "<s:property value='collegename'/>";
-		tpInfo[3] = "<button class='btn btn-info'>编辑</button>&nbsp;&nbsp;<button class='btn btn-danger'>删除</button>";
+		var tpInfo = new Array(5);
+		tpInfo[0] = "<a href='examLocation.jsp?tpid=<s:property value='testingpointid'/>&tpname=<s:property value='testingpointname'/>'><s:property value='testingpointid'/></a>";
+		tpInfo[1] = "<a href='examLocation.jsp?tpid=<s:property value='testingpointid'/>&tpname=<s:property value='testingpointname'/>'><s:property value='testingpointname'/></a>";
+		tpInfo[2] = "<s:property value='testingpointaddress'/>";
+		tpInfo[3] = "<s:property value='collegename'/>";
+		tpInfo[4] = "<button class='btn btn-info'>编辑</button>&nbsp;&nbsp;<button class='btn btn-danger'>删除</button>";
 		tpArray[index++] = tpInfo;
 	</s:iterator>
+	
+	//加载上传文件名
+	function loadFile(file){
+	    $("#filename").html(file.name);
+	}
 	
 	$("document").ready(function(){
 		$(".menu a:eq(1)").css("color","red");
@@ -110,6 +166,34 @@
 			}
 		});
 		
+		$("#filebtn").click(function(){
+			$("#formTp").ajaxForm({
+				url :"msgImport.action",
+				dataType : "json",
+				type : "post",
+				resetForm : true,
+				beforeSubmit : function(){
+					var fileName= $("#importFile").val();
+					if(fileName==undefined || fileName==""){
+						alert("请选择文件！");
+					}else{
+			            var suffix=(fileName.substr(fileName.lastIndexOf(".")+1)).toUpperCase();
+			            if(!(suffix=='XLS'||suffix=='XLSX')){
+			                alert("只能上传xls或者xlxs类型的文件！");
+			                return false;
+			            }
+					}
+				},
+				success : function(data){
+					alert(data);
+					window.location.reload();
+					
+				},
+				error : function(data){
+					alert(data);
+				}
+			});
+		});
 	});
 </script>
 </html>

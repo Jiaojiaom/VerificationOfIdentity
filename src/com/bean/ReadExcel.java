@@ -19,7 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReadExcel {
 	
-	public ArrayList<Map<String,String>> readXls(String path) throws IOException {
+	public ArrayList<Map<String,String>> readXls(String path,String xlsType) throws IOException {
 		
 		FileInputStream is = new FileInputStream(path); 
 		Workbook hssfWorkbook = null;
@@ -41,19 +41,43 @@ public class ReadExcel {
                 Row hssfRow = hssfSheet.getRow(rowNum);  
                 if (hssfRow != null) {
                 		Map<String,String> row =new HashMap<String,String>();
-                    Cell teaid = hssfRow.getCell(0);  
-                    Cell teaName = hssfRow.getCell(1);  
-                    Cell sex = hssfRow.getCell(2);  
-                    Cell collegeId = hssfRow.getCell(3);
-                    Cell testingPointId = hssfRow.getCell(4);
-                    Cell phoneNumber = hssfRow.getCell(5);
-                    System.out.println("teaId = " + getValue(teaid));
-                    row.put("teaId", getValue(teaid));
-                    row.put("teaName", getValue(teaName));
-                    row.put("sex", getValue(sex));
-                    row.put("collegeId", getValue(collegeId));
-                    row.put("testingPointId", getValue(testingPointId));
-                    row.put("phoneNumber", getValue(phoneNumber));
+                		if(xlsType.equals("tea")) {
+                			Cell teaid = hssfRow.getCell(0);  
+                			Cell teaName = hssfRow.getCell(1);  
+                			Cell sex = hssfRow.getCell(2);  
+                			Cell collegeId = hssfRow.getCell(3);
+                			Cell testingPointId = hssfRow.getCell(4);
+                			Cell phoneNumber = hssfRow.getCell(5);
+                			System.out.println("teaId = " + getValue(teaid));
+                			row.put("teaId", getValue(teaid));
+                			row.put("teaName", getValue(teaName));
+                			row.put("sex", getValue(sex));
+                			row.put("collegeId", getValue(collegeId));
+                			row.put("testingPointId", getValue(testingPointId));
+                			row.put("phoneNumber", getValue(phoneNumber));
+                		}else if(xlsType.equals("testingPoint")){
+                			Cell tpid = hssfRow.getCell(0);  
+                			Cell tpName = hssfRow.getCell(1);  
+                			Cell cityId = hssfRow.getCell(2);  
+                			Cell collegeId = hssfRow.getCell(3);
+                			Cell tpAddress = hssfRow.getCell(4);
+                			System.out.println("tpid = " + getValue(tpid));
+                			row.put("tpId", getValue(tpid));
+                			row.put("tpName", getValue(tpName));
+                			row.put("cityId", getValue(cityId));
+                			row.put("collegeId", getValue(collegeId));
+                			row.put("tpAddress", getValue(tpAddress));
+                		}else {
+                			Cell elId = hssfRow.getCell(0);  
+                			Cell elName = hssfRow.getCell(1);  
+                			Cell elClass = hssfRow.getCell(2);  
+                			Cell containNum = hssfRow.getCell(3);
+                			System.out.println("elName = " + getValue(elName));
+                			row.put("elId", getValue(elId));
+                			row.put("elName", getValue(elName));
+                			row.put("elClass", getValue(elClass));
+                			row.put("containNum", getValue(containNum));
+                		}
                     data.add(row);  
                 }  
             }  

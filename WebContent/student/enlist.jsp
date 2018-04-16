@@ -77,6 +77,9 @@
 		    margin: 0;
 		    padding: 0;
 		}
+		#enlistTab #enlistInfo button:hover{
+			background-color: red;
+		}
 		#enlistTab #enlistInfo table{
 			border-collapse: collapse;
 			width: 100%;
@@ -86,6 +89,9 @@
 		}
 		#enlistTab #enlistInfo table th{
 			font-weight: normal;
+		}
+		#enlistTab #enlistInfo table td{
+			text-align: center;
 		}
 		#enlistTab #mention{
 			margin: 80px 0;
@@ -114,11 +120,14 @@
 	<s:bean name="db.SubjectMsgDAO">
 		<s:set value="getSubjectName()" var="subjectList" />
 	</s:bean>
+	<s:bean name="db.StudentMsgDAO">
+		<s:set value="getEnlistInfo(#session.cardId)" var="enlistList" />
+	</s:bean>
 	<s:include value="navbar.jsp">
 	</s:include>
 	<div id="content">
 		<div id="enlistTab">
-			<s:form action="enlist" method="post">
+			<s:form action="enlist" method="post" onsubmit="return check(0);">
 				<div>
 					<label class="title">请选择考点</label>
 					<div>
@@ -146,14 +155,28 @@
 			<div id="enlistInfo">
 				<div id="header">
 					<h4>考试报名信息</h4>
-					<button type="button">删&nbsp;&nbsp;除</button>
+					<form action="dtEnlist.action" method="post" onsubmit="return check(1)">
+						<button type="submit" id="delete">删&nbsp;&nbsp;除</button>
+					</form>
 				</div>
 				<table border="1">
 					<tr>
 						<th width="33%">考试科目</th>
 						<th width="34%">考点</th>
-						<th width="33%">报名状态</th>
+						<th width="33%">所在城市</th>
 					</tr>
+					<s:if test="#enlistList != null">
+						<tr>
+							<td width="33%"><s:property value="#enlistList.get('subjectname')"/></td>
+							<td width="34%"><s:property value="#enlistList.get('testingpointname')"/></td>
+							<td width="33%"><s:property value="#enlistList.get('cityname')"/></td>
+						</tr>
+					</s:if>
+					<s:else>
+						<tr>
+							<td colspan="3" align="center">无报名信息</td>
+						</tr>
+					</s:else>
 				</table>
 			</div>
 			<div id="mention">
@@ -172,5 +195,21 @@
 		$(".tab:eq(3) div").css({"background-color": "#399cde","color": "#fff"});
 		$(".tab:eq(3) a").css("color","#399cde");
 	});
+ 	<s:property value="rs" />
+ 	function check(data){
+ 		if(data == 0){
+	 		<s:if test="#enlistList != null">
+	 			alert("请先删除原报名信息！");
+	 			return false;
+			</s:if>
+			return true;
+ 		}else{
+ 			<s:if test="#enlistList == null">
+	 			alert("无报名信息！");
+	 			return false;
+			</s:if>
+			return true;
+ 		}
+ 	}
 </script>
 </html>

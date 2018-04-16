@@ -21,4 +21,28 @@ public class TestingPointMsgDAO {
 		dbc.close();
 		return rs;
 	}
+	
+	public int importTable(ArrayList<Map<String,String>> data) {
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		String sql;
+		int index = 0;
+		for(int i=0;i<data.size();i++) {
+			Map<String,String> row = data.get(i);
+			sql = "select * from testingPointMsg where testingPointId = " + row.get("tpId") + ";";
+			System.out.println(sql);
+//			ResultSet exist = dbc.queryForRS(sql);
+			ArrayList<Map<String,String>> exist = dbc.queryForList(sql);
+			if(exist.size() == 0) {
+				sql = "insert into testingPointMsg(testingPointId,testingPointName,cityId,collegeId,testingPointAddress) values(" + row.get("tpId") + ",'" + row.get("tpName") + "'," + row.get("cityId") + "," + row.get("collegeId") + ",'" + row.get("tpAddress") +"');" ;
+				System.out.println(sql);
+				int flag = dbc.update(sql);
+				if(flag>0) {
+					System.out.println("考点导入成功");
+					index++;
+				}
+			}
+		}
+		return index;
+	}
 }

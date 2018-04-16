@@ -10,7 +10,7 @@
 	
     <package name="default" extends="json-default">
         <action name="stulogin" class="com.stu.action.LoginRegisterAction" method="login">
-            <result name="success">/student/editInfo.jsp</result>
+            <result name="success" type="redirect">/student/editInfo.jsp</result>
             <result name="login">/student/login.jsp</result>
         </action>
         <action name="teaAdminlogin" class="com.action.TeaAdminLoginAction">
@@ -63,12 +63,35 @@
         		<result name="input">/teacher/authentication.jsp</result>
         		<result name="login">/teacher/authentication.jsp</result>
         </action>
-         <action name="teaMsgImport" class="com.admin.action.TeaMsgImportAction">
+         <action name="msgImport" class="com.admin.action.MsgImportAction">
        		<!-- 动态设置action的属性值 -->
         		<param name="savePath">/exceldata</param>
-            <result type="json">
+            <result type="json" name="success">
+				<param name="root">result</param>            		
+            </result>
+            <result type="json" name="login">
 				<param name="root">result</param>            		
             </result>
          </action>
+         <action name="exportExcel" class="com.action.ExportExcelAction">
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>  
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">1024</param>
+                <param name="inputName">excelStream</param> 
+            </result>
+        </action>
+        <action name="stuEditInfo" class="com.stu.action.EditInfoAction">
+            <result name="success">/student/editInfo.jsp</result>
+            <result name="input">/student/editInfo.jsp</result>
+        </action>
+        <action name="enlist" class="com.stu.action.EnlistAction">
+            <result name="success">/student/enlist.jsp</result>
+            <result name="login">/student/enlist.jsp</result>
+        </action>
+        <action name="dtEnlist" class="com.stu.action.DeleteEnlistAction">
+            <result name="success">/student/enlist.jsp</result>
+            <result name="login">/student/enlist.jsp</result>
+        </action>
     </package>
 </struts>

@@ -29,6 +29,7 @@
 		}
 		#examArrageTab table tr{
 			height: 30px;
+			text-align: center;
 		}
 		#examArrageTab table tr th{
 			font-weight: normal;
@@ -37,6 +38,9 @@
 	</style>
 </head>
 <body>
+	<s:bean name="db.StudentMsgDAO">
+		<s:set value="getExamInfo(#session.cardId)" var="examList" />
+	</s:bean>
 	<s:include value="navbar.jsp"></s:include>
 	<div id="content">
 		<div id="examArrageTab">
@@ -48,6 +52,20 @@
 					<th>考试地点</th>
 					<th>座位号</th>
 				</tr>
+				<s:if test="#examList != null">
+					<tr>
+						<td><s:property value="#examList.get('subjectname')"/></td>
+						<td><s:property value="#examList.get('testingpointname')"/></td>
+						<td><s:property value="#examList.get('subjectdate')"/>&nbsp;<s:property value="#examList.get('subjectstarttime')"/>-<s:property value="#examList.get('subjectendtime')"/></td>
+						<td><s:property value="#examList.get('building')"/>&nbsp;<s:property value="#examList.get('classroom')"/></td>
+						<td><s:property value="#examList.get('examseatnumber')"/></td>
+					</tr>
+				</s:if>
+				<s:else>
+					<tr>
+						<td colspan="5" align="center">未有考场信息</td>
+					</tr>
+				</s:else>
 			</table>
 		</div>
 	</div>

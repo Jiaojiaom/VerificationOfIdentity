@@ -20,8 +20,15 @@ public class UploadImgAction extends ActionSupport{
 	//文件保存路径
 	private String savePath;
 	//上传结果
-	private int tip = 0;
+	private String rs = "alert('照片格式或大小有误，请重新上传！'); window.location.href='uploadImg.jsp';";
 	
+	
+	public String getRs() {
+		return rs;
+	}
+	public void setRs(String rs) {
+		this.rs = rs;
+	}
 	public File getImg() {
 		return img;
 	}
@@ -53,12 +60,6 @@ public class UploadImgAction extends ActionSupport{
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}
-	public int getTip() {
-		return tip;
-	}
-	public void setTip(int tip) {
-		this.tip = tip;
-	}
 	
 	public String execute() throws Exception{
 		StudentMsgDAO  studao = new StudentMsgDAO();
@@ -79,7 +80,7 @@ public class UploadImgAction extends ActionSupport{
 		}
 		int i = studao.updateFaceToken(cardId, newName);
 		if( i > 0) {
-			setTip(1);
+			rs = "alert('上传成功'); window.location.href='uploadImg.jsp';";
 		}
 		return SUCCESS;
 	}

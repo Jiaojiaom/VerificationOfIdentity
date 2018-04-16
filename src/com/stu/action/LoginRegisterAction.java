@@ -13,8 +13,16 @@ public class LoginRegisterAction extends ActionSupport{
 	private String stuName;
 	private String cardId;
 	private String password;
-	private int tip;
+	private String rs;
 	
+	public String getRs() {
+		return rs;
+	}
+
+	public void setRs(String rs) {
+		this.rs = rs;
+	}
+
 	public String getStuName() {
 		return stuName;
 	}
@@ -39,25 +47,20 @@ public class LoginRegisterAction extends ActionSupport{
 		this.password = password;
 	}
 
-	public int getTip() {
-		return tip;
-	}
-
-	public void setTip(int tip) {
-		this.tip = tip;
-	}
 
 	public String login() throws Exception{
 		System.out.println(stuName);
 		StudentMsgDAO stuDao = new StudentMsgDAO();
-		tip = stuDao.checkLog(stuName,cardId, password);
+		int tip = stuDao.checkLog(stuName,cardId, password);
 		if(tip == 2) {
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			session.setAttribute("stuName", stuName);
 			session.setAttribute("cardId", cardId);
 			return SUCCESS;
-		}
-		System.out.println(tip);
+		}else if(tip == 1){
+			rs = "alert('密码输入有误，请重新输入！'); window.location.href='login.jsp';";
+		} else
+			rs = "alert('姓名或身份证号输入有误，请重新输入！'); window.location.href='login.jsp';";
 		return LOGIN;
 	}
 }

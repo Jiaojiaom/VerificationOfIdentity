@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE validators PUBLIC  
+        "-//Apache Struts//XWork Validator 1.0.2//EN"  
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">  
+          
+<validators>  
+    <field name="stuName">  
+        <field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入姓名!</message>  
+        </field-validator>  
+    </field>  
+    <field name="cardId">  
+        <field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入证件号码！</message>  
+        </field-validator>    
+    </field>  
+    <field name="birth">
+    		<field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入出生日期!</message>  
+        </field-validator>  
+        <field-validator type="regex">
+        		<param name="expression"><![CDATA[^\d{4}-\d{2}-\d{2}$]]></param>
+            <message>出生日期格式有误，请按以下格式:2017-03-18</message>  
+        </field-validator>  
+    </field>
+    <field name="academyClass">  
+        <field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入院系/班级!</message>  
+        </field-validator>  
+    </field>
+    <field name="email">
+    		<field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入电子邮箱!</message>  
+        </field-validator>  
+        <field-validator type="email">  
+            <message>电子邮箱输入有误</message>  
+        </field-validator>  
+    </field>
+     <field name="phoneNumber">
+     	<field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入手机号码!</message>  
+        </field-validator>  
+        <field-validator type="regex">  
+            <param name="expression"><![CDATA[^\d{4}-\d{2}-\d{2}$]]></param>
+            <message>手机号码输入有误</message>  
+        </field-validator>  
+    </field>
+     <field name="address">  
+        <field-validator type="requiredstring" short-circuit="true">  
+            <param name="trim">true</param>  
+            <message>请输入通信地址!</message>  
+        </field-validator>    
+    </field> 
+</validators>  
