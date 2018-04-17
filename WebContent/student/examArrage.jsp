@@ -76,5 +76,10 @@
 		$(".tab:eq(4) div").css({"background-color": "#399cde","color": "#fff"});
 		$(".tab:eq(4) a").css("color","#399cde");
 	});
+ 	var fail = "" + "<s:property value='#parameters.fail'/>";
+	if(fail != ""){
+		alert("报名已关闭");
+		window.location.href = "examArrage.jsp";
+	}
 </script>
 </html>

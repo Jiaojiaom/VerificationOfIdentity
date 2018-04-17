@@ -77,15 +77,20 @@ public class FaceCompare {
 		this.setStatus(rs.getStatus());
 	}
 	
-	public Map<String,Double> getResultMsg() throws JSONException{
+	public Map<String,Double> getResultMsg(){
 		Map<String,Double> result = new HashMap<String,Double>();
 		String res = new String(content);
-		JSONObject json = new JSONObject(res);
-		double confidence = json.optDouble("confidence");
-		JSONObject thresholds = json.optJSONObject("thresholds");
-		result.put("confidence", confidence);
-		result.put("1e-3", thresholds.optDouble("1e-3"));
-		result.put("1e-5", thresholds.optDouble("1e-5"));
+		try {
+			JSONObject json = new JSONObject(res);
+			double confidence = json.optDouble("confidence");
+			JSONObject thresholds = json.optJSONObject("thresholds");
+			result.put("confidence", confidence);
+			result.put("1e-3", thresholds.optDouble("1e-3"));
+			result.put("1e-5", thresholds.optDouble("1e-5"));
+		}catch(JSONException e) {
+			result = null;
+			System.out.println("无人脸");
+		}
 		return result;
 	}
 }

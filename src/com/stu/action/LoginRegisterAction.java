@@ -56,6 +56,7 @@ public class LoginRegisterAction extends ActionSupport{
 			HttpSession session = ServletActionContext.getRequest().getSession();
 			session.setAttribute("stuName", stuName);
 			session.setAttribute("cardId", cardId);
+			session.setAttribute("isLogined","yes");
 			return SUCCESS;
 		}else if(tip == 1){
 			rs = "alert('密码输入有误，请重新输入！'); window.location.href='login.jsp';";

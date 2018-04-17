@@ -37,7 +37,7 @@ public class StudentMsgDAO {
 	}
 	
 	public ArrayList<Map<String,String>> getStudentMsg(String cardId){
-		String sql = "select sex,cardType,birth,provinceId,collegeId,studyType,academyClass,email,phoneNumber,address,face_token from studentMsg where cardId = '" +cardId + "';";
+		String sql = "select cardId,stuname,sex,cardType,birth,provinceId,collegeId,studyType,academyClass,email,phoneNumber,address,face_token from studentMsg where cardId = '" +cardId + "';";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
@@ -46,8 +46,8 @@ public class StudentMsgDAO {
 		return rs;
 	}
 	
-	public ArrayList<Map<String,String>> getAbsentStuFromPlace(String examLocationId){
-		String sql = "select cardId,stuname,examSeatNumber,phoneNumber from studentMsg where examLocationId = " + examLocationId + " and isCheating = 2;";
+	public ArrayList<Map<String,String>> getAbsentStuFromPlace(String examLocationId,String tpId){
+		String sql = "select cardId,stuname,examSeatNumber,phoneNumber from studentMsg where examLocationId = " + examLocationId + " and isCheating = 2 and testingPointId = "+ tpId + ";";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
@@ -55,8 +55,8 @@ public class StudentMsgDAO {
 		return rs;
 	}
 	
-	public ArrayList<Map<String,String>> getCheatingStuFromPlace(String examLocationId){
-		String sql = "select cardId,stuname,examSeatNumber,phoneNumber from studentMsg where examLocationId = " + examLocationId + " and isCheating = 1;";
+	public ArrayList<Map<String,String>> getCheatingStuFromPlace(String examLocationId,String tpId){
+		String sql = "select cardId,stuname,examSeatNumber,phoneNumber from studentMsg where examLocationId = " + examLocationId + " and isCheating = 1 and testingPointId = "+ tpId + ";";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);	
@@ -86,17 +86,35 @@ public class StudentMsgDAO {
 		return face;
 	}
 	
-	public int checkIdentity(Map<String,String> stuMsg, String examLocationId) {
-		String sql = "select * from studentMsg where cardId = '" + stuMsg.get("cardId") + "' and stuname = '" + stuMsg.get("name") + "' and sex = '" + stuMsg.get("gender") + "' and birth = '" + stuMsg.get("birth") + "' and examLocationId = " + examLocationId + ";";
+//	public int checkIdentity(Map<String,String> stuMsg, String examLocationId, String testingPointId) {
+//		String sql = "select * from studentMsg where cardId = '" + stuMsg.get("cardId") + "' and stuname = '" + stuMsg.get("name") + "' and sex = '" + stuMsg.get("gender") + "' and birth = '" + stuMsg.get("birth") + "' and examLocationId = " + examLocationId + " and testingPointId = " + testingPointId + ";";
+//		System.out.println(sql);
+//		DBConnection dbc = new DBConnection();
+//		dbc.createConnection();
+//		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
+//		dbc.close();
+//		if(rs == null || rs.size() == 0) {
+//			return 0; //信息不通过
+//		}else {
+//			return 1;
+//		}
+//	}
+	
+	public int checkIdentity(Map<String,String> stuMsg, String examLocationId, String testingPointId) {
+		String sql = "select stuname,sex,birth from studentMsg where cardId = '" + stuMsg.get("cardId")  + " ' and examLocationId = " + examLocationId + " and testingPointId = " + testingPointId + ";";
 		System.out.println(sql);
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		ArrayList<Map<String,String>> rs = dbc.queryForList(sql);
 		dbc.close();
-		if(rs == null) {
-			return 0; //信息不通过
+		if(rs == null || rs.size() == 0) {
+			return 0; //该考场无该人
 		}else {
-			return 1;
+			Map<String,String> info = rs.get(0);
+			if(stuMsg.get("name").equals(info.get("stuname")) && stuMsg.get("birth").equals(info.get("birth")) && stuMsg.get("gender").equals(info.get("sex"))) {
+				return 1;
+			}
+			return 2;//信息不相符
 		}
 	}
 	
@@ -236,5 +254,34 @@ public class StudentMsgDAO {
 		}
 		dbc.close();
 		return info;
+	}
+	
+	public int updateCheating(String stuId, int value) {
+		String sql = "update studentMsg set isCheating = " + value + " where cardId = '"  + stuId + "';";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	
+	public int updateSemblance(String stuId, double semblance) {
+		String sql = "update studentMsg set semblance = " + semblance + " where cardId = '"  + stuId + "';";
+		System.out.println(sql);
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
+	}
+	
+	public int deleteStu(){
+		String sql = "delete from studentMsg where testingPointId is null or testingPointId = '';";
+		DBConnection dbc = new DBConnection();
+		dbc.createConnection();
+		int i = dbc.update(sql);
+		dbc.close();
+		return i;
 	}
 }

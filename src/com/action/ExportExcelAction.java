@@ -20,7 +20,26 @@ public class ExportExcelAction extends ActionSupport{
 	private String exportType; //封装说明导出哪个数据表的请求参数
 	private String fileName;
 	private InputStream excelStream;
+	private String examLocationId;
+	private String testingPointId;
 	
+	
+	public String getExamLocationId() {
+		return examLocationId;
+	}
+
+	public void setExamLocationId(String examLocationId) {
+		this.examLocationId = examLocationId;
+	}
+
+	public String getTestingPointId() {
+		return testingPointId;
+	}
+
+	public void setTestingPointId(String testingPointId) {
+		this.testingPointId = testingPointId;
+	}
+
 	public InputStream getExcelStream() {
 		return excelStream;
 	}
@@ -59,6 +78,12 @@ public class ExportExcelAction extends ActionSupport{
 			fileName = "缺考名单.xls";
 		}else  if(exportType.equals("cheatingStu")){
 			data = sdao.exportCheatingStu();
+			fileName = "黑名单.xls";
+		}else if(exportType.equals("absentPlace")) {
+			data = sdao.exportAbsentStu(examLocationId, testingPointId);
+			fileName = "缺考名单.xls";
+		}else {
+			data = sdao.exportCheatingStu(examLocationId, testingPointId);
 			fileName = "黑名单.xls";
 		}
 		

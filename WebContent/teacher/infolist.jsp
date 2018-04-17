@@ -143,6 +143,7 @@
 			padding: 1px 15px;
 			cursor: pointer;
 			border-radius: 4px;
+			height: 100%;
 		}
 		#content .tabheader button:hover{
 			background-color: #337ab7;
@@ -151,10 +152,10 @@
 </head>
 <body>
 	<s:bean name="db.StudentMsgDAO">
-		<s:set value="getAbsentStuFromPlace(#session.examLocationId)" var="absentStuList" />
+		<s:set value="getAbsentStuFromPlace(#session.examLocationId,#session.testingPointId)" var="absentStuList" />
 	</s:bean>
 	<s:bean name="db.StudentMsgDAO">
-		<s:set value="getCheatingStuFromPlace(#session.examLocationId)" var="cheatingStuList" />
+		<s:set value="getCheatingStuFromPlace(#session.examLocationId,#session.testingPointId)" var="cheatingStuList" />
 	</s:bean>
 	<s:include value="navbar.jsp"></s:include>
 	<%-- <s:debug/> --%>
@@ -165,7 +166,12 @@
 					<section id="tab1" title="缺考名单">
 						<div class="tabheader">
 							<h4>缺考名单</h4>
-							<button type="button">导&nbsp;&nbsp;出</button>
+							<form name="exportAbStu" id="exportAbStu" method="post" action="exportExcel.action">
+								<input type="hidden" name="exportType" value="absentPlace"/>
+								<input type="hidden" name="examLocationId" value="<s:property value='#session.examLocationId'/>" />
+								<input type="hidden" name="testingPointId" value="<s:property value='#session.testingPointId'/>"/>
+								<button type="submit">导&nbsp;&nbsp;出</button>
+							</form>
 						</div>
 						<div style="margin-bottom: 20px;">
 							<table id="absent" class="display" cellspacing="0" width="100%">
@@ -183,7 +189,12 @@
 					<section id="tab2" title="黑名单">
 						<div class="tabheader">
 							<h4>黑名单</h4>
-							<button type="button">导&nbsp;&nbsp;出</button>
+							<form name="exportChStu" id="exportChStu" method="post" action="exportExcel.action">
+								<input type="hidden" name="exportType" value="cheatingPlace"/>
+								<input type="hidden" name="examLocationId" value="<s:property value='#session.examLocationId'/>" />
+								<input type="hidden" name="testingPointId" value="<s:property value='#session.testingPointId'/>"/>
+								<button type="submit">导&nbsp;&nbsp;出</button>
+							</form>
 						</div>
 						<div style="margin-bottom: 20px;">
 							<table id="cheating" class="display" cellspacing="0" width="100%">

@@ -216,5 +216,10 @@ footer .copyright{
 		}
 	}); */
 	<s:property value="rs"/>
+	var fail = "" + "<s:property value='#parameters.fail'/>";
+	if(fail != ""){
+		alert("报名系统已关闭，无法进入");
+		window.location.href = "login.jsp";
+	}
 </script>
 </html>

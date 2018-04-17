@@ -76,18 +76,21 @@ public class OrcIDcard {
 	}
 	
 	public Map<String,String> getCardMsg() throws JSONException{
-		Map<String,String> result = new HashMap<String,String>();
+		Map<String,String> result = null;
 		String res = new String(content);
 		JSONObject json = new JSONObject(res);
-		JSONObject card = json.optJSONArray("cards").getJSONObject(0);
-		if(card.optString("gender").equals("女")) {
-			result.put("gender", "F");
-		}else {
-			result.put("gender", "M");
+		if(json.optJSONArray("cards").length()>0) {
+			result = new HashMap<String,String>();
+			JSONObject card = json.optJSONArray("cards").getJSONObject(0);
+			if(card.optString("gender").equals("女")) {
+				result.put("gender", "F");
+			}else {
+				result.put("gender", "M");
+			}
+			result.put("name", card.optString("name"));
+			result.put("cardId", card.optString("id_card_number"));
+			result.put("birth", card.optString("birthday"));
 		}
-		result.put("name", card.optString("name"));
-		result.put("cardId", card.optString("id_card_number"));
-		result.put("birth", card.optString("birthday"));
 		return result;
 	}
 }

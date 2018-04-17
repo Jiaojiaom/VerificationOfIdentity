@@ -16,13 +16,13 @@ public class TeaAdminLoginAction extends ActionSupport{
 	private String id;
 	private String password;
 	private String role;
-	private int tip;
+	private String rs;
 	
-	public int getTip() {
-		return tip;
+	public String getRs() {
+		return rs;
 	}
-	public void setTip(int tip) {
-		this.tip = tip;
+	public void setRs(String rs) {
+		this.rs = rs;
 	}
 	public String getCollegeId() {
 		return collegeId;
@@ -50,22 +50,25 @@ public class TeaAdminLoginAction extends ActionSupport{
 	}
 	
 	public String execute() throws Exception{
+		int tip;
 		if(role.equals("tea")) {
 			TeacherMsgDAO teadao = new TeacherMsgDAO();
 			tip = teadao.checkLog(id, collegeId, password);
 			if(tip == 2) {
 				Map<String,String> teaMsg = teadao.getTeaMsg(id, collegeId);
 				HttpSession session = ServletActionContext.getRequest().getSession();
+				System.out.println("session:" + teaMsg.get("testingpointid"));
 				session.setAttribute("teaId", id);
 				session.setAttribute("collegeId", collegeId);
 				session.setAttribute("teaName", teaMsg.get("teaname"));
 				session.setAttribute("testingPointName", teaMsg.get("testingpointname"));
+				session.setAttribute("testingPointId", teaMsg.get("testingpointid"));
 				session.setAttribute("examLocationId", teaMsg.get("examlocationid"));
 				session.setAttribute("building", teaMsg.get("building"));
 				session.setAttribute("classroom", teaMsg.get("classroom"));
+				session.setAttribute("isLogined","yes");
 				return SUCCESS + role;
 			}
-			return LOGIN;
 		}else{
 			AdminMsgDAO admindao = new AdminMsgDAO();
 			tip = admindao.checkLog(id, password);
@@ -74,10 +77,18 @@ public class TeaAdminLoginAction extends ActionSupport{
 				HttpSession session = ServletActionContext.getRequest().getSession();
 				session.setAttribute("adminId", id);
 				session.setAttribute("adminName", adminName);
+				session.setAttribute("isLogined","yes");
 				return SUCCESS + role;
 			}
-			return LOGIN;
 		}
+		if(tip==1) {
+			rs = "alert('密码输入有误，请重新输入！'); window.location.href='login.jsp';";
+		}else if(tip==0){
+			rs = "alert('所在学校或工号输入有误，请重新输入！'); window.location.href='login.jsp';";
+		}else {
+			rs = "alert('工号输入有误，请重新输入！'); window.location.href='login.jsp';";
+		}
+		return LOGIN;
 	}
 	
 }

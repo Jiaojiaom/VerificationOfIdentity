@@ -36,10 +36,11 @@ public class TeacherMsgDAO {
 	}
 	
 	public  Map<String,String> getTeaMsg(String teaId, String collegeId) {
-		String sql = "select teaName, testingPointName, building, classroom, examLocationId from teacherMsg join testingPointMsg using(testingPointId) join examDistributionMsg on examLocationId = disId where teaId = '" + teaId + "' and teacherMsg.collegeId = " + collegeId + ";";
+		String sql = "select teaName, testingPointName, teacherMsg.testingPointId as testingPointId, building, classroom, examLocationId from teacherMsg join testingPointMsg using(testingPointId) join examDistributionMsg on examLocationId = disId where teaId = '" + teaId + "' and teacherMsg.collegeId = " + collegeId + ";";
 		DBConnection dbc = new DBConnection();
 		dbc.createConnection();
 		Map<String,String> rs = dbc.queryForList(sql).get(0);
+		System.out.println(rs.get("testingpointid"));
 		return rs;
 	}
 	

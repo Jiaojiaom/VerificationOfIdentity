@@ -225,7 +225,7 @@ footer .copyright{
 </footer> -->
 </body>
 <script type="text/javascript">
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		var result = ""+ "<s:property value='tip'/>";
 		if(result != ""){
 			if(result == "1")
@@ -235,6 +235,12 @@ footer .copyright{
 			else
 				alert("工号输入有误，请重新输入！");
 		}
-	});
+	}); */
+	<s:property value="rs"/>
+	var fail = "" + "<s:property value='#parameters.fail'/>";
+	if(fail != ""){
+		alert("考生身份验证系统已关闭，无法进入");
+		window.location.href = "login.jsp";
+	}
 </script>
 </html>

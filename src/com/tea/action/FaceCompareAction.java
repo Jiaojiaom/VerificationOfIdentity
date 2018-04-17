@@ -1,6 +1,7 @@
 package com.tea.action;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
@@ -16,8 +17,14 @@ public class FaceCompareAction extends ActionSupport{
 	private String faceImgFileName;
 	private String stuId;
 	private String savePath;
-	private int tip = 3;
+	private Map<String,Object> result = new HashMap<String,Object>();
 	
+	public Map<String, Object> getResult() {
+		return result;
+	}
+	public void setResult(Map<String, Object> result) {
+		this.result = result;
+	}
 	@SuppressWarnings("deprecation")
 	public String getSavePath() {
 		return ServletActionContext.getRequest().getRealPath(savePath);
@@ -49,12 +56,6 @@ public class FaceCompareAction extends ActionSupport{
 	public void setStuId(String stuId) {
 		this.stuId = stuId;
 	}
-	public int getTip() {
-		return tip;
-	}
-	public void setTip(int tip) {
-		this.tip = tip;
-	}
 	
 	public String execute() throws Exception{
 		StudentMsgDAO sdao = new StudentMsgDAO();
@@ -65,16 +66,25 @@ public class FaceCompareAction extends ActionSupport{
 		System.out.println(fc.getStatus());
 		if(fc.getStatus() == 200) {
 			Map<String,Double> rs = fc.getResultMsg();
+			if(rs==null) {
+				result.put("result", "noFace");
+				return LOGIN;
+			}
 			System.out.println(rs.get("confidence"));
-			if(rs.get("confidence")>rs.get("1e-5")) {
-				tip = 4; //是同一个人
-				return SUCCESS;
-			}else {
-				tip = 5; //不是同一张人
+			if(rs.get("confidence")>rs.get("1e-5")) { //是同一个人
+				if(sdao.updateCheating(stuId, 0)>0&&sdao.updateSemblance(stuId, rs.get("confidence"))>0) {
+					result.put("result","success");
+					result.put("confidence", rs.get("confidence"));
+					return SUCCESS;
+				}
+			}else {//不是同一张人
+				sdao.updateSemblance(stuId, rs.get("confidence")); 
+				result.put("result","error");
+				result.put("confidence", rs.get("confidence"));
 				return LOGIN;
 			}
 		}
-		tip = 2; //无法比对
+		result.put("result","fail"); //无法比对
 		return LOGIN;
 	}
 }

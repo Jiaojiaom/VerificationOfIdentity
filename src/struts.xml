@@ -43,9 +43,15 @@
         		<!--配置系统拦截器 -->
         		<interceptor-ref name="defaultStack" />
         		<!-- 返回结果 -->
-        		<result name="success">/teacher/authentication.jsp</result>
-        		<result name="input">/teacher/authentication.jsp</result>
-        		<result name="login">/teacher/authentication.jsp</result>
+        		<result type="json" name="success">
+				<param name="root">result</param>            		
+            </result>
+            <result type="json" name="login">
+				<param name="root">result</param>            		
+            </result>
+            <result type="json" name="input">
+				<param name="root">result</param>            		
+            </result>
         </action>
         <action name="faceRecognition" class="com.tea.action.FaceCompareAction">
         		<!-- 配置fileUplaod拦截器 -->
@@ -59,9 +65,15 @@
         		<!-- 动态设置action的属性值 -->
         		<param name="savePath">/stuImg</param>
         		<!-- 返回结果 -->
-        		<result name="success">/teacher/authentication.jsp</result>
-        		<result name="input">/teacher/authentication.jsp</result>
-        		<result name="login">/teacher/authentication.jsp</result>
+        		<result type="json" name="success">
+				<param name="root">result</param>            		
+            </result>
+            <result type="json" name="login">
+				<param name="root">result</param>            		
+            </result>
+            <result type="json" name="input">
+				<param name="root">result</param>            		
+            </result>
         </action>
          <action name="msgImport" class="com.admin.action.MsgImportAction">
        		<!-- 动态设置action的属性值 -->
@@ -92,6 +104,13 @@
         <action name="dtEnlist" class="com.stu.action.DeleteEnlistAction">
             <result name="success">/student/enlist.jsp</result>
             <result name="login">/student/enlist.jsp</result>
+        </action>
+        <action name="check" class="com.tea.action.CheckAction">
+            <result name="success">/teacher/check.jsp</result>
+            <result name="login">/teacher/check.jsp</result>
+        </action>
+        <action name="updateStatus" class="com.admin.action.UpdateStatusAction">
+            <result name="success">/admin/setting.jsp</result>
         </action>
     </package>
 </struts>
